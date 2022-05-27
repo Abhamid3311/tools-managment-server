@@ -76,6 +76,14 @@ async function run() {
             res.send(addOrder);
         });
 
+        //GET Order
+        app.get('/order', async (req, res) => {
+            const query = {};
+            const cursor = orderCollection.find(query);
+            const tools = await cursor.toArray();
+            res.send(tools);
+        });
+
 
     }
     finally {
