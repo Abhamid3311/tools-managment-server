@@ -60,6 +60,13 @@ async function run() {
             const result = await toolsCollection.updateOne(filter, updatedDoc, options);
             res.send(result);
         });
+
+        //Post Review
+        app.post('/review', async (req, res) => {
+            const newReview = req.body
+            const addReview = await reviewCollection.insertOne(newReview);
+            res.send(addReview);
+        });
     }
     finally {
 
