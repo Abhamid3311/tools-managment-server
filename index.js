@@ -76,13 +76,15 @@ async function run() {
             res.send(addOrder);
         });
 
-        //GET Order
-        app.get('/order', async (req, res) => {
-            const query = {};
-            const cursor = orderCollection.find(query);
+        //GET My Order
+        app.get('/order/:email', async (req, res) => {
+            const email = req.params.email;
+            const filter = { email: email };
+            const cursor = orderCollection.find(filter);
             const tools = await cursor.toArray();
             res.send(tools);
         });
+
 
 
     }
