@@ -45,6 +45,21 @@ async function run() {
             const reviews = await cursor.toArray();
             res.send(reviews);
         });
+
+        //Update Quantity
+        app.put('/tools/:id', async (req, res) => {
+            const id = req.params.id;
+            const updateQuantity = req.body;
+            const filter = { _id: ObjectId(id) };
+            const options = { upsert: true };
+            const updatedDoc = {
+                $set: {
+                    myOrder: updateQuantity.myOrder,
+                }
+            };
+            const result = await toolsCollection.updateOne(filter, updatedDoc, options);
+            res.send(result);
+        });
     }
     finally {
 
