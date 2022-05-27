@@ -21,6 +21,7 @@ async function run() {
         await client.connect();
         const toolsCollection = client.db("tools_managment").collection("tools");
         const reviewCollection = client.db("tools_managment").collection("reviews");
+        const orderCollection = client.db("tools_managment").collection("orders");
 
         //GET TOOLS
         app.get('/tools', async (req, res) => {
@@ -66,6 +67,13 @@ async function run() {
             };
             const result = await toolsCollection.updateOne(filter, updatedDoc, options);
             res.send(result);
+        });
+
+        //Post Order
+        app.post('/order', async (req, res) => {
+            const newOrder = req.body
+            const addOrder = await orderCollection.insertOne(newOrder);
+            res.send(addOrder);
         });
 
 
