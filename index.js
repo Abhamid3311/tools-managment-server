@@ -46,6 +46,13 @@ async function run() {
             res.send(reviews);
         });
 
+        //Post Review 
+        app.post('/review', async (req, res) => {
+            const newReview = req.body
+            const addReview = await reviewCollection.insertOne(newReview);
+            res.send(addReview);
+        });
+
         //Update Quantity
         app.put('/tools/:id', async (req, res) => {
             const id = req.params.id;
@@ -61,12 +68,7 @@ async function run() {
             res.send(result);
         });
 
-        //Post Review
-        app.post('/review', async (req, res) => {
-            const newReview = req.body
-            const addReview = await reviewCollection.insertOne(newReview);
-            res.send(addReview);
-        });
+
     }
     finally {
 
