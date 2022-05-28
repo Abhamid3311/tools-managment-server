@@ -36,7 +36,6 @@ async function run() {
             const id = req.params.id;
             const query = { _id: ObjectId(id) };
             const tool = await toolsCollection.findOne(query);
-            console.log(tool);
             res.send(tool);
         });
 
@@ -76,6 +75,14 @@ async function run() {
             const addOrder = await orderCollection.insertOne(newOrder);
             res.send(addOrder);
         });
+        
+        //GET Order
+        app.get('/order', async (req, res) => {
+            const query = {};
+            const cursor = orderCollection.find(query);
+            const orders = await cursor.toArray();
+            res.send(orders);
+        });
 
         //GET My Order
         app.get('/order/:email', async (req, res) => {
@@ -99,6 +106,14 @@ async function run() {
             const newUser = req.body
             const addUser = await userCollection.insertOne(newUser);
             res.send(addUser);
+        });
+
+        //Get User
+        app.get('/user/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const user = await userCollection.findOne(query);
+            res.send(user);
         });
 
 
