@@ -22,6 +22,7 @@ async function run() {
         const toolsCollection = client.db("tools_managment").collection("tools");
         const reviewCollection = client.db("tools_managment").collection("reviews");
         const orderCollection = client.db("tools_managment").collection("orders");
+        const userCollection = client.db("tools_managment").collection("users");
 
         //GET TOOLS
         app.get('/tools', async (req, res) => {
@@ -84,6 +85,22 @@ async function run() {
             const tools = await cursor.toArray();
             res.send(tools);
         });
+
+        /* //DELETE MyOrder
+        app.delete('/order/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const deleteItem = await orderCollection.deleteOne(query);
+            res.send(deleteItem);
+        }); */
+
+        //Post User
+        app.post('/user', async (req, res) => {
+            const newUser = req.body
+            const addUser = await userCollection.insertOne(newUser);
+            res.send(addUser);
+        });
+
 
     }
     finally {
