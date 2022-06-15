@@ -38,6 +38,12 @@ async function run() {
             const tool = await toolsCollection.findOne(query);
             res.send(tool);
         });
+        //Post Tool 
+        app.post('/tools', async (req, res) => {
+            const newTool = req.body
+            const addtool = await toolsCollection.insertOne(newTool);
+            res.send(addtool);
+        });
 
         //GET Reviews
         app.get('/review', async (req, res) => {
@@ -75,7 +81,7 @@ async function run() {
             const addOrder = await orderCollection.insertOne(newOrder);
             res.send(addOrder);
         });
-        
+
         //GET Order
         app.get('/order', async (req, res) => {
             const query = {};
