@@ -107,20 +107,33 @@ async function run() {
             res.send(deleteItem);
         }); */
 
-        //Post User
-        app.post('/user', async (req, res) => {
-            const newUser = req.body
-            const addUser = await userCollection.insertOne(newUser);
-            res.send(addUser);
+        //PUT USER 
+        app.put('/user/:email', async (req, res) => {
+            const email = req.params.email;
+            const user = req.body;
+            const filter = { email: email };
+            const options = { upsert: true };
+            const updateDoc = {
+                $set: user,
+            };
+            const result = await userCollection.updateOne(filter, updateDoc, options);
+            res.send(result);
         });
 
-        //Get User
-        app.get('/user/:id', async (req, res) => {
-            const id = req.params.id;
-            const query = { _id: ObjectId(id) };
+        //Get single User
+        app.get('/user/:email', async (req, res) => {
+            const email = req.params.email;
+            const query = { email: email };
             const user = await userCollection.findOne(query);
             res.send(user);
         });
+        // Get Users
+        app.get('/user', async (req, res) => {
+            const query = {};
+            const cursor = userCollection.find(query);
+            const users = await cursor.toArray();
+            res.send(users);
+        })
 
 
     }
