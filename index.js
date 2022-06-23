@@ -127,6 +127,28 @@ async function run() {
             res.send(deleteItem);
         }); */
 
+        //Put Admin
+        app.put('/user/admin/:email', async (req, res) => {
+            const email = req.params.email;
+            const requister = req.decoded.email;
+            const reqAccount = await userCollection.findOne({ email: requister });
+            if (reqAccount.role === 'admin') {
+                const filter = { email: email };
+                const updateDoc = {
+                    $set: { role: 'admin' },
+                };
+                const result = await userCollection.updateOne(filter, updateDoc);
+                res.send(result);
+            } else {
+                return res.status(403).send({ message: "Forbidden Access" })
+            }
+
+        });
+
+
+
+
+
         //PUT USER 
         app.put('/user/:email', async (req, res) => {
             const email = req.params.email;
@@ -149,7 +171,7 @@ async function run() {
             res.send(user);
         });
         // Get Users
-        app.get('/user', async (req, res) => {
+        app.get('/user', verifyJWT, async (req, res) => {
             const query = {};
             const cursor = userCollection.find(query);
             const users = await cursor.toArray();
