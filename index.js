@@ -127,6 +127,14 @@ async function run() {
             res.send(deleteItem);
         }); */
 
+        //Get admin
+        app.get('/admin/:email', async (req, res) => {
+            const email = req.params.email;
+            const user = await userCollection.findOne({ email: email });
+            const isAdmin = user.role === 'admin';
+            res.send({ admin: isAdmin });
+        })
+
         //Put Admin
         app.put('/user/admin/:email', async (req, res) => {
             const email = req.params.email;
@@ -144,10 +152,6 @@ async function run() {
             }
 
         });
-
-
-
-
 
         //PUT USER 
         app.put('/user/:email', async (req, res) => {
